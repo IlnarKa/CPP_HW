@@ -31,9 +31,17 @@ int main()
             switch (a)
             {
                 case ')':
-                    while (signs.top() != '(')   // Calculating, while don't see opening bracket
+                    if(signs.empty())
+                    {
+                      cerr << "Uncorrect input" << endl;
+                      exit(0);
+                    }
+                    else
+                    {
+                      while (signs.top() != '(' )   // Calculating, while don't see opening bracket
                         calculation(numbers, signs);
                     signs.pop();
+                    }
                     break;
                 case '(':
                     signs.push(a);
@@ -93,7 +101,10 @@ void calculation (stack <long long> &numbers , stack <char> &signs)
 {
   // if we have less than 2 elements or less than one sign we end programm
   if(numbers.size() < 2 || signs.size() < 1)
-      end();
+     {
+        cerr << "Uncorrect input" << endl;
+        exit(0);
+     }
 
   char sign = signs.top();
   long long b = numbers.top();
@@ -104,11 +115,19 @@ void calculation (stack <long long> &numbers , stack <char> &signs)
 //what operation need to do each sign
     switch (sign) {
         case '/':
-            if (b == 0) end();
+            if (b == 0)
+              {
+                cerr << "Division by zero" << endl;
+                exit(0);
+              }
             numbers.push(a / b);
             break;
         case '%':
-            if (b == 0) end();
+            if (b == 0)
+              {
+                cerr << "Division by zero" << endl;
+                exit(0);
+              }
             numbers.push(a % b);
             break;
         case '*':
