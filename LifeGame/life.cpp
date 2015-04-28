@@ -15,6 +15,8 @@ bool xSh = false;
 bool ySh = false;
 int xSize = defSize;
 int ySize = defSize;
+int born10 = 0;
+int died10 = 0;
 
 // to show, when cell live
 struct cellLife
@@ -73,6 +75,16 @@ int main(int argc, char const *argv[])
   for (curRound = 1; curRound <= roundNumber; curRound++)
   {
     roundGen();
+    if (curRound % 10 == 0)
+    {
+      cout << "From " << (curRound / 10 - 1) * 10 << " to " << (curRound / 10) * 10 << " born : " << born10 << endl;
+      if (died10 != 0)
+        cout << "From " << (curRound / 10 - 1) * 10 << " to " << (curRound / 10) * 10 << " average born/died rating : " << (double) born10 / died10 << endl;
+      else
+        cout << "From " << (curRound / 10 - 1) * 10 << " to " << (curRound / 10) * 10 << " average born/died rating : nonody died" << endl;
+      born10 = 0;
+      died10 = 0;
+    }
   }
   cout << "In full round cells born: " << all << endl;
 
@@ -245,8 +257,11 @@ void check()
       sum = cellSum(x, y);
       if (exist[x][y].present == true and sum == 3)
       {
+        born10++;
         all++;
       }
+      if (exist[x][y].present == 1 and (sum > 3 || sum < 2))
+        died10++;
       // to know, if will live this cell in future
       if ((sum == 3) or ((sum == 2) and (exist[x][y].present == true)))
       {
